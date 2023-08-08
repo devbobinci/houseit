@@ -8,6 +8,7 @@ export default defineConfig(({ command }) => {
   const config = {
     plugins: [react()],
     base: "/",
+    server: { port: 3000 },
   };
 
   if (command !== "serve") {

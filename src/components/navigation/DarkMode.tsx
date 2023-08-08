@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { motion } from "framer-motion";
 import { HiOutlineLightBulb } from "@react-icons/all-files/hi/HiOutlineLightBulb";
-import { IoMdCloudyNight } from "@react-icons/all-files/Io/IoMdCloudyNight";
+import { IoMdCloudyNight } from "react-icons/io";
 
 type Props = {
   darkMode: boolean;
