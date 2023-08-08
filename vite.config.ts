@@ -4,7 +4,15 @@ import react from "@vitejs/plugin-react";
 const ASSET_URL = process.env.ASSET_URL || "";
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  server: { port: 3000 },
+export default defineConfig(({ command }) => {
+  const config = {
+    plugins: [react()],
+    base: "/",
+  };
+
+  if (command !== "serve") {
+    config.base = "/real-estate-houseit/";
+  }
+
+  return config;
 });
