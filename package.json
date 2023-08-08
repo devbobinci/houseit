@@ -2,7 +2,6 @@
   "name": "real-estate-app",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://imxbartus.github.io/real-estate-houseit",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
@@ -40,6 +39,7 @@
     "react-select": "^5.7.4",
     "react-spinners": "^0.13.8",
     "react-time-picker": "^6.2.0",
+    "vercel": "^31.2.2",
     "yup": "^1.2.0",
     "yup-password": "^0.2.2"
   },
