@@ -1,0 +1,72 @@
+.calendar-container {
+  @apply my-8 flex flex-col flex-col-reverse;
+}
+
+.react-datepicker {
+  @apply dark:bg-[#555];
+}
+
+.react-datepicker__month-container {
+  @apply dark:bg-[#555];
+}
+
+.react-datepicker__day-names {
+  @apply dark:bg-[#777];
+}
+
+.react-datepicker__header {
+  @apply dark:bg-[#888];
+}
+
+.react-datepicker__time {
+  @apply dark:bg-[#777];
+}
+
+.react-datepicker__day--disabled {
+  @apply text-neutral-500;
+}
+
+.react-datepicker__time-container
+  .react-datepicker__time
+  .react-datepicker__time-box
+  ul.react-datepicker__time-list {
+  overflow-y: auto;
+}
+
+.react-datepicker-popper {
+  position: relative !important;
+  transform: inherit !important;
+}
+
+.react-datepicker__time-list-item--disabled {
+  display: none !important;
+}
+
+.react-datepicker__input-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.react-datepicker__day--weekend {
+  @apply text-red-400;
+}
+
+.react-datepicker__close-icon {
+  position: relative !important;
+  &::after {
+    @apply bg-red-500/80;
+  }
+}
+
+.react-datepicker__input-container input {
+  padding-left: 0;
+  // width: 100%;
+  text-align: center;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__time-list-item--selected {
+  --baseBlue: #60b7ff;
+  background-color: var(--baseBlue) !important;
+}

@@ -1,0 +1,27 @@
+.toggle-input {
+  top: -12px;
+  font-size: 14px;
+  padding: 0 0.25rem;
+  @apply rounded-md bg-white text-sm;
+}
+
+.input-base {
+  @apply w-full rounded-full border bg-white p-2 pl-4 text-sm outline-baseBlue;
+}
+
+.label-base {
+  @apply absolute left-4 text-gray-300 transition-all duration-300;
+}
+
+.default-label-position {
+  @apply top-1/2 -translate-y-1/2 select-none bg-white text-sm;
+}
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset;
+  -webkit-text-fill-color: #222;
+}
+
+.triangle {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}

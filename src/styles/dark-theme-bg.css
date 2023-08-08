@@ -1,0 +1,9 @@
+.dark-theme-bg {
+  /* @apply bg-[#edf6ff] bg-gradient-to-br from-[#edf6ff] from-5% via-[#f7f7f7] via-50% to-[#edf6ff] to-95%; */
+  @apply bg-white transition-all duration-200;
+  @apply transition-all duration-200 dark:bg-[#181818] dark:bg-gradient-to-br dark:from-[#222222] dark:from-5% dark:via-[#181818] dark:via-50%  dark:to-[#100F0F] dark:to-95%;
+}
+
+.faded {
+  @apply transition-all duration-200;
+}

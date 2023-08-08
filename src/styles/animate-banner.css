@@ -1,0 +1,24 @@
+text {
+  font-weight: 500;
+  text-transform: uppercase;
+  font-variant-ligatures: none;
+  letter-spacing: 6px;
+  animation: rotate 20s linear infinite;
+  transform-origin: 250px 250px;
+  @apply fill-black dark:fill-white transition-all duration-300;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.textcircle {
+  transition: transform 1s cubic-bezier(0.65, 0, 0.35, 1);
+  transform-origin: 250px 250px;
+}
+
+svg:hover .textcircle {
+  transform: scale(1.2) rotate(90deg);
+}
