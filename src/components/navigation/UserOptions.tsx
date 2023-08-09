@@ -54,7 +54,7 @@ export default function UserOptions({ userPanel, setUserPanel, user }: Props) {
                 <Link
                   to={`/listings/${user?.uid}`}
                   onClick={closeUserPanel}
-                  className="flex items-center gap-2 text-sm text-neutral-600 hover:text-white hover:underline dark:text-gray-300 md:text-base"
+                  className="flex items-center gap-2 text-sm text-neutral-600 hover:underline dark:text-gray-300 dark:hover:text-white md:text-base"
                 >
                   <BsCardList className="text-lg" />
                   My Lisitings
@@ -62,14 +62,14 @@ export default function UserOptions({ userPanel, setUserPanel, user }: Props) {
                 <Link
                   to={`/favorites/${user?.uid}`}
                   onClick={closeUserPanel}
-                  className="flex items-center gap-2 text-sm text-neutral-600 hover:text-white hover:underline dark:text-gray-300 md:text-base"
+                  className="flex items-center gap-2 text-sm text-neutral-600 hover:underline dark:text-gray-300 dark:hover:text-white md:text-base"
                 >
                   <AiOutlineStar className="text-lg" />
                   My Favorites
                 </Link>
                 <li
                   onClick={closeUserPanel}
-                  className="text-sm text-neutral-600 hover:text-white hover:underline dark:text-gray-300 md:text-base"
+                  className="text-sm text-neutral-600 hover:underline dark:text-gray-300 dark:hover:text-white md:text-base"
                 >
                   <span
                     onClick={() => signOut(auth)}

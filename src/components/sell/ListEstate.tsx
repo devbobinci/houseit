@@ -53,13 +53,13 @@ export default function ListEstate({
         <li className="flex cursor-default items-start gap-2 text-xl">
           <FcCheckmark className="mt-0.5" />{" "}
           <span className="text-sm dark:text-white">
-            Interested parties will arrange a meeting at a convenient time
+            Easy removing listing at any time
           </span>
         </li>
         <li className="flex cursor-default items-start gap-2 text-xl">
           <FcCheckmark className="mt-0.5" />{" "}
           <span className="text-sm dark:text-white">
-            Interested parties will arrange a meeting at a convenient time
+            Adding into favorite user's listings
           </span>
         </li>
       </ul>

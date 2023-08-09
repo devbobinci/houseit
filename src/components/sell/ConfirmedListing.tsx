@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import { Estate } from "../../../typings";
 import Checkmark from "../estate-page/Checkmark";
 
@@ -11,6 +11,12 @@ type Props = {
 
 export default function ConfirmedListing({ estate }: Props) {
   const { id, mainImage } = estate || {};
+
+  if (!estate) {
+    setTimeout(() => {
+      redirect("/buy");
+    }, 2000);
+  }
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center px-2 md:px-0">
