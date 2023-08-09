@@ -1,4 +1,4 @@
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Estate } from "../../../typings";
 import Checkmark from "../estate-page/Checkmark";
 
@@ -12,9 +12,11 @@ type Props = {
 export default function ConfirmedListing({ estate }: Props) {
   const { id, mainImage } = estate || {};
 
+  const navigate = useNavigate();
+
   if (!estate) {
     setTimeout(() => {
-      redirect("/buy");
+      navigate("/buy");
     }, 2000);
   }
 

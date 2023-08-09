@@ -1,13 +1,21 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { AnimatePresence, motion as m } from "framer-motion";
 
 type Props = {
   darkMode: boolean;
 };
 
 export default function DesktopNav({ darkMode }: Props) {
+  const [dotToggler, setDotToggler] = useState<string>("");
+
   return (
     <div className="flex items-center gap-20">
-      <Link to="/" className="flex items-center gap-2">
+      <Link
+        to="/"
+        onClick={() => setDotToggler("")}
+        className="flex items-center gap-2"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -27,23 +35,48 @@ export default function DesktopNav({ darkMode }: Props) {
           HouseIt
         </span>
       </Link>
-      <ul className="hidden gap-8 md:flex">
-        <Link
-          to={"/buy"}
-          className="text-lg font-medium text-black dark:text-white hover:underline"
-        >
-          Buy
-        </Link>
-        <Link
-          to={"/sell"}
-          className="text-lg font-medium text-black dark:text-white flex items-center group"
-        >
-          <span className="group-hover:underline">Sell</span>{" "}
-          <span className="ml-2 rounded-full bg-baseBlue px-2 py-1 text-xs text-white">
-            New
-          </span>
-        </Link>
-      </ul>
+
+      <span className="border-1 hidden h-14 border-l  border-neutral-200 transition-all duration-300 dark:border-neutral-500 md:inline-block"></span>
+
+      <AnimatePresence mode="wait">
+        <ul className="hidden gap-8 md:flex">
+          <Link
+            to={"/buy"}
+            onClick={() => setDotToggler("buy")}
+            className="relative text-lg font-medium text-black hover:underline dark:text-white"
+          >
+            Buy
+            {dotToggler === "buy" && (
+              <m.span
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+                className="absolute -bottom-3 left-1/2 -translate-x-1/2 rounded-full border-4 border-baseBlue"
+              ></m.span>
+            )}
+          </Link>
+          <Link
+            to={"/sell"}
+            onClick={() => setDotToggler("sell")}
+            className="group relative flex items-center text-lg font-medium text-black dark:text-white"
+          >
+            <span className="group-hover:underline">Sell</span>{" "}
+            <span className="ml-2 rounded-full bg-baseBlue px-2 py-1 text-xs text-white">
+              New
+            </span>
+            {dotToggler === "sell" && (
+              <m.span
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+                className="absolute -bottom-3 left-[18%] -translate-x-1/2 rounded-full border-4 border-baseBlue"
+              ></m.span>
+            )}
+          </Link>
+        </ul>
+      </AnimatePresence>
     </div>
   );
 }
