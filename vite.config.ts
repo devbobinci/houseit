@@ -9,7 +9,7 @@ export default defineConfig(({ command }) => {
   };
 
   if (command !== "serve") {
-    config.base = "/real-estate-houseit/";
+    config.base = "/houseit/";
   }
 
   return config;
