@@ -9,7 +9,7 @@ export default defineConfig(({ command }) => {
   };
 
   if (command !== "serve") {
-    config.base = "/dist/";
+    config.base = "/houseit/";
   }
 
   return config;
