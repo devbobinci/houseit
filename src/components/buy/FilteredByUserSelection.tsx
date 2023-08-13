@@ -49,10 +49,8 @@ export default function FilteredByUserSelection({
 
   function applyUserSelection() {
     setNewFilters(false);
-    if (noArea && noBeds && noBaths && noPrice && noName) {
+    if (noArea && noBeds && noBaths && noPrice && noName)
       setFiltered([...allEstates]);
-      console.log("takie samo", true);
-    }
 
     const priceFiltering = (estate: Estate) => {
       if (price.minVal! > 0 && isNaN(price.maxVal!)) {
@@ -403,8 +401,6 @@ export default function FilteredByUserSelection({
       if (noArea && noBeds && noPrice && noBaths) setFiltered(nameSelected);
 
       if (area > 0) {
-        console.log(noPrice);
-
         if (noBeds && noPrice && noBaths) setFiltered(areaNameFiltering);
 
         if (beds > 0) {
@@ -433,7 +429,17 @@ export default function FilteredByUserSelection({
         setFiltered(priceNameSelected);
         if (beds > 0) {
           setFiltered(priceBedsNameSelected);
-          if (area > 0) setFiltered(priceBedsAreaNameSelected);
+          if (area > 0) {
+            setFiltered(priceBedsAreaNameSelected);
+            if (baths > 0) {
+              setFiltered(allFiltersSelected);
+            }
+          } else if (baths > 0) {
+            setFiltered(priceBedsBathsNameSelected);
+            if (area > 0) {
+              setFiltered(allFiltersSelected);
+            }
+          }
         } else if (baths > 0) {
           setFiltered(priceBathsNameSelected);
           if (area > 0) setFiltered(priceBathsAreaNameSelected);
