@@ -1,38 +1,63 @@
 import { useState } from "react";
 
 import { motion as m } from "framer-motion";
-import { HiOutlineMenuAlt2 } from "@react-icons/all-files/hi/HiOutlineMenuAlt2";
-import { HiOutlineLocationMarker } from "@react-icons/all-files/hi/HiOutlineLocationMarker";
+import { HiOutlineTrendingDown } from "@react-icons/all-files/hi/HiOutlineTrendingDown";
+import { Estate } from "../../../typings";
+import { useFilterSelection } from "../../context/FilterUserSelection";
 
-export default function ToggleSelection() {
+type Props = {
+  setFiltered: React.Dispatch<React.SetStateAction<Estate[]>>;
+};
+export default function ToggleSelection({ setFiltered }: Props) {
   const [toggleList, setToggleList] = useState(false);
+  const { filterSelection, setFilterSelection } = useFilterSelection();
+  const { sort } = filterSelection || {};
 
   return (
-    <div className="px-5 border self-center border-lightBlue hover:border-baseBlue rounded-full relative cursor-pointer flex justify-between items-center transition-all duration-300 group w-44 h-[52px]">
+    <div className="group relative flex h-[52px] w-60 cursor-pointer items-center justify-between gap-4 overflow-x-hidden rounded-full border border-lightBlue bg-white px-5 transition-all duration-300 hover:border-baseBlue dark:border-[#222] dark:bg-[#333] md:w-64">
       <m.div
         layout
         transition={spring}
-        className={`w-[45%] h-[80%] rounded-full transition-colors duration-300 bg-baseBlue absolute z-0 ${
+        className={`absolute z-0 h-[77%] w-[46%] rounded-full transition-colors duration-300 ${
           toggleList ? "right-2" : "left-2"
-        }`}
+        } ${sort !== "" && "bg-baseBlue"}`}
       />
 
       <p
-        onClick={() => setToggleList(false)}
-        className={`inline-flex text-sm md:text-base items-center gap-1 relative z-[1] transition-all duration-300 ${
-          !toggleList ? "text-white" : ""
+        onClick={() => {
+          setToggleList(false);
+          setFiltered((prev) => [...prev].sort((a, b) => b.price - a.price));
+          setFilterSelection((prevSelection) => ({
+            ...prevSelection,
+            sort: "desc",
+          }));
+        }}
+        className={`relative z-[1] inline-flex items-center gap-1 text-sm transition-all duration-300 md:text-base ${
+          sort !== "" && !toggleList
+            ? "text-white"
+            : "opacity-30 hover:opacity-100 dark:text-gray-100"
         }`}
       >
-        <HiOutlineMenuAlt2 className="text-lg" /> List
+        <span className="text-sm">High-Low</span>{" "}
+        <HiOutlineTrendingDown className="rotate-12 xl:text-lg" />
       </p>
       <p
-        onClick={() => setToggleList(true)}
-        className={`inline-flex text-sm md:text-base items-center gap-1 relative z-[1] transition-all duration-300 ${
-          toggleList ? "text-white" : ""
+        onClick={() => {
+          setToggleList(true);
+          setFiltered((prev) => [...prev].sort((a, b) => a.price - b.price));
+          setFilterSelection((prevSelection) => ({
+            ...prevSelection,
+            sort: "asc",
+          }));
+        }}
+        className={`relative z-[1] inline-flex items-center gap-1 text-sm transition-all duration-300 md:text-base ${
+          sort !== "" && toggleList
+            ? "text-white"
+            : "opacity-30 hover:opacity-100 dark:text-gray-100"
         }`}
       >
-        <HiOutlineLocationMarker className="text-lg" />
-        Map
+        <span className="text-sm">Low-High</span>{" "}
+        <HiOutlineTrendingDown className="-rotate-90 xl:text-lg" />
       </p>
     </div>
   );

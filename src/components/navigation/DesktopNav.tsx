@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion as m } from "framer-motion";
 
@@ -8,6 +8,14 @@ type Props = {
 
 export default function DesktopNav({ darkMode }: Props) {
   const [dotToggler, setDotToggler] = useState<string>("");
+
+  useEffect(() => {
+    if (window.location.pathname.includes("buy")) {
+      setDotToggler("buy");
+    } else if (window.location.pathname.includes("sell")) {
+      setDotToggler("sell");
+    }
+  }, [window.location.pathname]);
 
   return (
     <div className="flex items-center gap-20">

@@ -19,10 +19,10 @@ export default function Footer() {
     >
       <div className="absolute left-0 top-1/2 z-[2] w-10 -translate-y-1/2 rounded-r-xl bg-white/20 backdrop-blur-sm dark:bg-black/20 md:w-16 xl:h-full xl:w-24 2xl:w-32"></div>
       <div className="absolute right-0 top-1/2 z-[2] w-10 -translate-y-1/2 rounded-l-xl bg-white/20 backdrop-blur-sm dark:bg-black/20 md:w-16 xl:h-full xl:w-24 2xl:w-32"></div>
-      <Marquee direction="right" autoFill pauseOnHover className="my-4">
-        <div className="flex gap-4">
+      <Marquee direction="right" autoFill pauseOnHover className="my-3">
+        <div className="flex w-full gap-4 rounded-md px-4 xl:gap-6">
           {estateData.map((estate, idx) => (
-            <EstateItem key={estate.id} estate={estate} idx={idx}></EstateItem>
+            <EstateItem key={estate.id} estate={estate} idx={idx} />
           ))}
         </div>
       </Marquee>

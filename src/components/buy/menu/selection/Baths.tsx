@@ -1,14 +1,15 @@
 import { useRef, useState } from "react";
-import { Estate } from "../../../../../typings";
-import { estateData } from "../../../../static/estate-data";
+
+import { useFilterSelection } from "../../../../context/FilterUserSelection";
 
 type Props = {
-  setFiltered: React.Dispatch<React.SetStateAction<Estate[]>>;
-  filtered: Estate[];
-  userEstates?: Estate[];
+  setOpenTab: React.Dispatch<React.SetStateAction<boolean>>;
+  setNewFilters: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Baths({ setFiltered, filtered, userEstates }: Props) {
+export default function Baths({ setOpenTab, setNewFilters }: Props) {
+  const { setFilterSelection } = useFilterSelection();
+
   const [isChecked1Bath, setIsChecked1Bath] = useState<boolean>(false);
   const [isChecked2Bath, setIsChecked2Bath] = useState<boolean>(false);
   const [isChecked3Bath, setIsChecked3Bath] = useState<boolean>(false);
@@ -18,8 +19,6 @@ export default function Baths({ setFiltered, filtered, userEstates }: Props) {
   const bathOptionTwo = useRef<HTMLInputElement>(null);
   const bathOptionThree = useRef<HTMLInputElement>(null);
   const bathOptionFour = useRef<HTMLInputElement>(null);
-
-  const allEstates = userEstates?.concat(estateData);
 
   const handleChange1Bath = () => {
     setIsChecked1Bath(true);
@@ -56,19 +55,6 @@ export default function Baths({ setFiltered, filtered, userEstates }: Props) {
     }
   };
 
-  function getAllEstates() {
-    setFiltered!(userEstates?.concat(estateData)!);
-  }
-
-  function getEstatesByBaths(baths: number) {
-    setFiltered!(
-      allEstates?.filter((estate) => estate.premises.baths <= baths)!
-    );
-  }
-
-  const filteredEqualsAllEstates =
-    filtered?.length !== userEstates?.concat(estateData).length;
-
   return (
     <ul className="space-y-2">
       <li className="flex items-center gap-2">
@@ -76,17 +62,15 @@ export default function Baths({ setFiltered, filtered, userEstates }: Props) {
           type="checkbox"
           id="1-bath"
           ref={bathOptionOne}
-          checked={isChecked1Bath && filteredEqualsAllEstates}
-          onChange={(e) => {
+          checked={isChecked1Bath}
+          onChange={() => {
             handleChange1Bath();
-            if (
-              !e.target.checked &&
-              !bathOptionTwo.current!.checked &&
-              !bathOptionThree.current!.checked &&
-              !bathOptionFour.current!.checked
-            )
-              getAllEstates();
-            else getEstatesByBaths(1);
+            setFilterSelection((prevSelection) => ({
+              ...prevSelection,
+              baths: 1,
+            }));
+            setOpenTab(false);
+            setNewFilters(true);
           }}
         />
         <label
@@ -101,17 +85,15 @@ export default function Baths({ setFiltered, filtered, userEstates }: Props) {
           type="checkbox"
           id="2-bath"
           ref={bathOptionTwo}
-          checked={isChecked2Bath && filteredEqualsAllEstates}
-          onChange={(e) => {
+          checked={isChecked2Bath}
+          onChange={() => {
             handleChange2Bath();
-            if (
-              !e.target.checked &&
-              !bathOptionOne.current!.checked &&
-              !bathOptionThree.current!.checked &&
-              !bathOptionFour.current!.checked
-            )
-              getAllEstates();
-            else getEstatesByBaths(3);
+            setFilterSelection((prevSelection) => ({
+              ...prevSelection,
+              baths: 3,
+            }));
+            setOpenTab(false);
+            setNewFilters(true);
           }}
         />
         <label
@@ -126,17 +108,15 @@ export default function Baths({ setFiltered, filtered, userEstates }: Props) {
           type="checkbox"
           id="3-bath"
           ref={bathOptionThree}
-          checked={isChecked3Bath && filteredEqualsAllEstates}
-          onChange={(e) => {
+          checked={isChecked3Bath}
+          onChange={() => {
             handleChange3Bath();
-            if (
-              !e.target.checked &&
-              !bathOptionOne.current!.checked &&
-              !bathOptionThree.current!.checked &&
-              !bathOptionFour.current!.checked
-            )
-              getAllEstates();
-            else getEstatesByBaths(4);
+            setFilterSelection((prevSelection) => ({
+              ...prevSelection,
+              baths: 4,
+            }));
+            setOpenTab(false);
+            setNewFilters(true);
           }}
         />
         <label
@@ -151,20 +131,14 @@ export default function Baths({ setFiltered, filtered, userEstates }: Props) {
           type="checkbox"
           id="4-bath"
           ref={bathOptionFour}
-          checked={isChecked4Bath && filteredEqualsAllEstates}
-          onChange={(e) => {
+          checked={isChecked4Bath}
+          onChange={() => {
             handleChange4Bath();
-            if (
-              !e.target.checked &&
-              !bathOptionOne.current!.checked &&
-              !bathOptionThree.current!.checked &&
-              !bathOptionTwo.current!.checked
-            )
-              getAllEstates();
-            else
-              setFiltered!(
-                allEstates?.filter((estate) => estate.premises.baths >= 5)!
-              );
+            setFilterSelection((prevSelection) => ({
+              ...prevSelection,
+              baths: 5,
+            }));
+            setNewFilters(true);
           }}
         />
         <label

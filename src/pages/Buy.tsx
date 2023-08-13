@@ -13,8 +13,6 @@ export default function Buy() {
   const [term, setTerm] = useState<string>("");
   const [userEstates, setUserEstates] = useState<Estate[]>([]);
 
-  const [filtering, setFiltering] = useState<string>("");
-
   return (
     <div className="dark-theme-bg min-h-screen">
       <RootLayout>
@@ -31,8 +29,6 @@ export default function Buy() {
             filtered={filtered}
             setUserEstates={setUserEstates}
             userEstates={userEstates}
-            setFiltering={setFiltering}
-            filtering={filtering}
           />
 
           <Estates

@@ -5,24 +5,19 @@ import Area from "./selection/Area";
 
 import { motion as m } from "framer-motion";
 import MobileBeds from "./selection/MobileBeds";
-import { Estate } from "../../../../typings";
 
 type Props = {
   text: string;
   Icon: IconType;
   Icon2: IconType;
-  setFiltered: React.Dispatch<React.SetStateAction<Estate[]>>;
-  filtered: Estate[];
-  userEstates?: Estate[];
+  setNewFilters: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function FilterSelection({
   text,
   Icon,
   Icon2,
-  setFiltered,
-  filtered,
-  userEstates,
+  setNewFilters,
 }: Props) {
   const [openTab, setOpenTab] = useState<boolean>(false);
 
@@ -43,25 +38,13 @@ export default function FilterSelection({
           className="ml-2"
         >
           {text === "Baths" && openTab && (
-            <Baths
-              setFiltered={setFiltered}
-              filtered={filtered}
-              userEstates={userEstates}
-            />
+            <Baths setOpenTab={setOpenTab} setNewFilters={setNewFilters} />
           )}
           {text === "Beds" && openTab && (
-            <MobileBeds
-              setFiltered={setFiltered}
-              filtered={filtered}
-              userEstates={userEstates}
-            />
+            <MobileBeds setOpenTab={setOpenTab} setNewFilters={setNewFilters} />
           )}
           {text === "Area" && openTab && (
-            <Area
-              setFiltered={setFiltered}
-              filtered={filtered}
-              userEstates={userEstates}
-            />
+            <Area setOpenTab={setOpenTab} setNewFilters={setNewFilters} />
           )}
         </m.div>
       )}

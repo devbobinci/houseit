@@ -1,14 +1,12 @@
 import { motion as m } from "framer-motion";
-import { Estate } from "../../../../../typings";
 import BedsListComp from "./BedsListComp";
 
 type Props = {
-  setFiltered: React.Dispatch<React.SetStateAction<Estate[]>>;
-  filtered?: Estate[];
-  userEstates?: Estate[];
+  setOpenTab: React.Dispatch<React.SetStateAction<boolean>>;
+  setNewFilters: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Beds({ setFiltered, filtered, userEstates }: Props) {
+export default function Beds({ setOpenTab, setNewFilters }: Props) {
   return (
     <m.div
       initial={{ opacity: 0, y: -15, x: "-50%" }}
@@ -18,11 +16,7 @@ export default function Beds({ setFiltered, filtered, userEstates }: Props) {
       className="absolute left-1/2 top-16 z-[2] w-28 -translate-x-[50%] rounded-lg border border-lightBlue bg-white p-3 shadow-md dark:border-[#222] dark:bg-[#333] dark:text-white"
     >
       <span className="triangle absolute -top-3 left-1/2 block h-3 w-4 -translate-x-[50%] bg-lightBlue dark:bg-[#333]"></span>
-      <BedsListComp
-        setFiltered={setFiltered}
-        filtered={filtered}
-        userEstates={userEstates}
-      />
+      <BedsListComp setOpenTab={setOpenTab} setNewFilters={setNewFilters} />
     </m.div>
   );
 }

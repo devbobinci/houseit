@@ -6,6 +6,10 @@ import { AnimatePresence, motion as m } from "framer-motion";
 import { estateData } from "../../static/estate-data";
 
 import { LiaLongArrowAltLeftSolid } from "react-icons/lia";
+import {
+  defaultFilterSelection,
+  useFilterSelection,
+} from "../../context/FilterUserSelection";
 
 type Props = {
   setTerm: React.Dispatch<React.SetStateAction<string>>;
@@ -20,6 +24,8 @@ export default function Estates({
   setFiltered,
   userEstates,
 }: Props) {
+  const { setFilterSelection } = useFilterSelection();
+
   return (
     <div>
       <AnimatePresence mode="wait">
@@ -28,10 +34,11 @@ export default function Estates({
             initial={{ opacity: 0, y: -5 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 5 }}
-            className="inline-flex items-center gap-2 rounded-xl bg-neutral-700 px-2 py-1.5  text-sm transition-all duration-200 hover:bg-neutral-600 dark:text-neutral-200 xl:px-3 xl:py-2 xl:text-base"
+            className="inline-flex items-center gap-2 rounded-xl border bg-white px-2 py-1.5 text-sm transition-all duration-200 hover:bg-neutral-100 dark:border-[#222] dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-600 xl:px-3 xl:py-2 xl:text-base"
             onClick={() => {
               setFiltered(userEstates.concat(estateData));
               setTerm("");
+              setFilterSelection(defaultFilterSelection);
             }}
           >
             <LiaLongArrowAltLeftSolid className="text-2xl" /> Return

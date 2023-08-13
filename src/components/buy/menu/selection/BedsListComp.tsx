@@ -1,18 +1,14 @@
-import { useRef, useState } from "react";
-import { estateData } from "../../../../static/estate-data";
-import { Estate } from "../../../../../typings";
+import { useEffect, useRef, useState } from "react";
+import { useFilterSelection } from "../../../../context/FilterUserSelection";
 
 type Props = {
-  setFiltered: React.Dispatch<React.SetStateAction<Estate[]>>;
-  filtered?: Estate[];
-  userEstates?: Estate[];
+  setOpenTab: React.Dispatch<React.SetStateAction<boolean>>;
+  setNewFilters: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function BedsListComp({
-  setFiltered,
-  filtered,
-  userEstates,
-}: Props) {
+export default function BedsListComp({ setOpenTab, setNewFilters }: Props) {
+  const { filterSelection, setFilterSelection } = useFilterSelection();
+
   const [isChecked1Bed, setIsChecked1Bed] = useState<boolean>(false);
   const [isChecked2Bed, setIsChecked2Bed] = useState<boolean>(false);
   const [isChecked3Bed, setIsChecked3Bed] = useState<boolean>(false);
@@ -20,8 +16,6 @@ export default function BedsListComp({
   const bedOptionOne = useRef<HTMLInputElement>(null);
   const bedOptionTwo = useRef<HTMLInputElement>(null);
   const bedOptionThree = useRef<HTMLInputElement>(null);
-
-  const allEstates = userEstates?.concat(estateData);
 
   const handleChange1Bed = () => {
     setIsChecked1Bed(true);
@@ -47,18 +41,15 @@ export default function BedsListComp({
     }
   };
 
-  function getAllEstates() {
-    setFiltered!(userEstates?.concat(estateData)!);
+  function unCheckCheckboxes() {
+    setIsChecked2Bed(false);
+    setIsChecked1Bed(false);
+    setIsChecked3Bed(false);
   }
 
-  function getEstatesByBeds(beds: number) {
-    setFiltered!(allEstates?.filter((estate) => estate.premises.beds <= beds)!);
-  }
-
-  const filteredEqualsAllEstates =
-    filtered?.length !== userEstates?.concat(estateData).length;
-
-  console.log(filteredEqualsAllEstates);
+  useEffect(() => {
+    if (isNaN(filterSelection.beds)) unCheckCheckboxes();
+  }, [filterSelection.beds]);
 
   return (
     <ul className="space-y-2">
@@ -67,16 +58,15 @@ export default function BedsListComp({
           type="checkbox"
           id="1-bed"
           ref={bedOptionOne}
-          checked={isChecked1Bed && filteredEqualsAllEstates}
-          onChange={(e) => {
+          checked={isChecked1Bed}
+          onChange={() => {
             handleChange1Bed();
-            if (
-              !e.target.checked &&
-              !bedOptionTwo.current!.checked &&
-              !bedOptionThree.current!.checked
-            )
-              getAllEstates();
-            else getEstatesByBeds(2);
+            setFilterSelection((prevSelection) => ({
+              ...prevSelection,
+              beds: 2,
+            }));
+            setOpenTab(false);
+            setNewFilters(true);
           }}
         />
         <label
@@ -91,16 +81,15 @@ export default function BedsListComp({
           ref={bedOptionTwo}
           type="checkbox"
           id="2-bed"
-          checked={isChecked2Bed && filteredEqualsAllEstates}
-          onChange={(e) => {
+          checked={isChecked2Bed}
+          onChange={() => {
             handleChange2Bed();
-            if (
-              !e.target.checked &&
-              !bedOptionOne.current!.checked &&
-              !bedOptionThree.current!.checked
-            )
-              getAllEstates();
-            else getEstatesByBeds(4);
+            setFilterSelection((prevSelection) => ({
+              ...prevSelection,
+              beds: 4,
+            }));
+            setOpenTab(false);
+            setNewFilters(true);
           }}
         />
         <label
@@ -115,19 +104,15 @@ export default function BedsListComp({
           ref={bedOptionThree}
           type="checkbox"
           id="4-bed"
-          checked={isChecked3Bed && filteredEqualsAllEstates}
-          onChange={(e) => {
+          checked={isChecked3Bed}
+          onChange={() => {
             handleChange3Bed();
-            if (
-              !e.target.checked &&
-              !bedOptionOne.current!.checked &&
-              !bedOptionTwo.current!.checked
-            )
-              getAllEstates();
-            else
-              setFiltered!(
-                allEstates?.filter((estate) => estate.premises.beds >= 5)!
-              );
+            setFilterSelection((prevSelection) => ({
+              ...prevSelection,
+              beds: 5,
+            }));
+            setOpenTab(false);
+            setNewFilters(true);
           }}
         />
         <label

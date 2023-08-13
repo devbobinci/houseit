@@ -3,43 +3,52 @@ import { useState } from "react";
 import { motion as m } from "framer-motion";
 
 import "../../styles/buy-menu.css";
-import { Estate } from "../../../typings";
-import { estateData } from "../../static/estate-data";
 import CurrencyInput from "react-currency-input-field";
+import { useFilterSelection } from "../../context/FilterUserSelection";
 
 type Props = {
-  setFiltered: React.Dispatch<React.SetStateAction<Estate[]>>;
-  userEstates: Estate[];
   setOpenTab: React.Dispatch<React.SetStateAction<boolean>>;
+  setNewFilters: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function PriceSelection({
-  setFiltered,
-  userEstates,
-  setOpenTab,
-}: Props) {
+export default function PriceSelection({ setOpenTab, setNewFilters }: Props) {
   const [minVal, setMinVal] = useState<number>(NaN);
   const [maxVal, setMaxVal] = useState<number>(NaN);
 
-  const allEstates = userEstates.concat(estateData);
+  const { setFilterSelection } = useFilterSelection();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const filteredByPrice = allEstates.filter((estate: Estate) => {
-      if (minVal > 0 && isNaN(maxVal)) {
-        return estate.price >= minVal;
-      }
-      if (maxVal > 0 && isNaN(minVal)) {
-        return estate.price <= maxVal;
-      }
-      if (maxVal > 0 && minVal > 0) {
-        return estate.price >= minVal && estate.price <= maxVal;
-      }
-    });
-    setFiltered(filteredByPrice);
+    if (minVal > 0 && isNaN(maxVal)) {
+      setFilterSelection!((prevSelection) => ({
+        ...prevSelection,
+        price: { minVal: Number(minVal) },
+      }));
+      setNewFilters(true);
+    }
+    if (maxVal > 0 && isNaN(minVal)) {
+      setFilterSelection!((prevSelection) => ({
+        ...prevSelection,
+        price: { maxVal: Number(maxVal) },
+      }));
+      setNewFilters(true);
+    }
+    if (maxVal > 0 && minVal > 0) {
+      setFilterSelection!((prevSelection) => ({
+        ...prevSelection,
+        price: { minVal: Number(minVal), maxVal: Number(maxVal) },
+      }));
+      setNewFilters(true);
+    }
 
-    if (isNaN(minVal) && isNaN(maxVal)) return setFiltered(allEstates);
+    if (isNaN(minVal) && isNaN(maxVal)) {
+      setFilterSelection!((prevSelection) => ({
+        ...prevSelection,
+        price: { minVal: NaN, maxVal: NaN },
+      }));
+      setNewFilters(true);
+    }
     setOpenTab(false);
   };
 
@@ -65,7 +74,13 @@ export default function PriceSelection({
               placeholder="$100 000"
               defaultValue={minVal || ""}
               decimalsLimit={2}
-              onValueChange={(value) => setMinVal(Number(value))}
+              onValueChange={(value) => {
+                setMinVal(Number(value));
+                // setFilterSelection!((prevSelection) => ({
+                //   ...prevSelection,
+                //   price: { minVal: Number(value) },
+                // }));
+              }}
               intlConfig={{ locale: "en-US", currency: "USD" }}
             />
           </div>
@@ -80,13 +95,20 @@ export default function PriceSelection({
               placeholder="$500 000"
               defaultValue={maxVal || ""}
               decimalsLimit={2}
-              onValueChange={(value) => setMaxVal(Number(value))}
+              onValueChange={(value) => {
+                setMaxVal(Number(value));
+                // setFilterSelection!((prevSelection) => ({
+                //   ...prevSelection,
+                //   price: { maxVal: Number(value) },
+                // }));
+              }}
               intlConfig={{ locale: "en-US", currency: "USD" }}
             />
           </div>
         </div>
         <div className="mt-4 flex items-center gap-2 ">
           <button
+            onClick={() => handleSubmit}
             type="submit"
             className="rounded-full bg-baseBlue px-3 py-1.5 text-sm text-white"
           >

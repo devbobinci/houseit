@@ -12,6 +12,7 @@ type Values = {
   surname: string;
   email: string;
   password: string;
+  passwordConfirmation: string;
 };
 
 type Props = {
@@ -34,9 +35,10 @@ export default function FormButtons({
   values,
 }: Props) {
   async function registerUser() {
-    const { name, surname, email, password } = values;
+    const { name, surname, email, password, passwordConfirmation } = values;
 
-    if (!name || !surname || !email || !password) return;
+    if (!name || !surname || !email || !password || !passwordConfirmation)
+      return;
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const db = getDatabase();

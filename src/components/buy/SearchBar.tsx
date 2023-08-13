@@ -6,24 +6,25 @@ import { Estate } from "../../../typings";
 
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { firestoreDb } from "../../utils/firebase";
+import { useFilterSelection } from "../../context/FilterUserSelection";
 
 type Props = {
-  term: string;
   setTerm: React.Dispatch<React.SetStateAction<string>>;
   setFiltered: React.Dispatch<React.SetStateAction<Estate[]>>;
-  filtered: Estate[];
   setUserEstates: React.Dispatch<React.SetStateAction<Estate[]>>;
   userEstates: Estate[];
+  setNewFilters: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function SearchBar({
-  term,
   setTerm,
   setFiltered,
-  filtered,
   setUserEstates,
   userEstates,
+  setNewFilters,
 }: Props) {
+  const { setFilterSelection, filterSelection } = useFilterSelection();
+
   useEffect(() => {
     getUploadedEstates();
 
@@ -31,19 +32,6 @@ export default function SearchBar({
       setFiltered(userEstates?.concat(estateData));
     }
   }, [userEstates.length]);
-
-  useEffect(() => {
-    const filteredByName = filtered?.filter(
-      (estate: Estate) =>
-        estate?.address?.city?.toLowerCase().includes(term.toLowerCase()) ||
-        estate?.address?.country?.toLowerCase().includes(term.toLowerCase())
-    );
-
-    if (term && term.length >= 1) setFiltered(filteredByName);
-    else if (userEstates.length >= 1)
-      setFiltered(userEstates?.concat(estateData));
-    else setFiltered(estateData);
-  }, [term]);
 
   const getUploadedEstates = () => {
     const collectionRef = collection(firestoreDb, "estate");
@@ -80,8 +68,15 @@ export default function SearchBar({
         <input
           type="text"
           className="w-full bg-transparent pl-3 outline-none placeholder:opacity-20 dark:bg-[#333] dark:text-white dark:placeholder:opacity-40"
-          onChange={(e) => setTerm(e.target.value)}
-          value={term}
+          onChange={(e) => {
+            setTerm(e.target.value);
+            setFilterSelection((prevSelection) => ({
+              ...prevSelection,
+              name: e.target.value,
+            }));
+            setNewFilters(true);
+          }}
+          value={filterSelection.name}
           placeholder="Enter city name..."
         />
         <BsSearch

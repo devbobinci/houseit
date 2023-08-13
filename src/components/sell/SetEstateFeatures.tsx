@@ -29,7 +29,7 @@ export default function SelectEstateFeatures({
   return (
     <div className="my-6">
       <h3 className="mb-2 flex items-center text-lg font-medium transition-all duration-300 dark:text-white">
-        Select house features
+        Select house features{" "}
         {selectedFeatures.length < 3 ? (
           <span className="text-red-500">*</span>
         ) : (
@@ -37,6 +37,9 @@ export default function SelectEstateFeatures({
             <Checkmark size={4} />
           </div>
         )}
+        <span className="ml-1 text-sm font-normal text-neutral-300">
+          (at least 3)
+        </span>
       </h3>
 
       <label htmlFor="title" className="mb-1 flex"></label>
