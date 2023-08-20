@@ -93,7 +93,7 @@ export default function Listings() {
           </h2>
           <hr className="mt-6 w-full" />
 
-          <div className="mt-12 grid grid-cols-1 gap-4 px-2 md:grid-cols-2 md:px-0 xl:grid-cols-3 2xl:grid-cols-4">
+          <div className="mt-12 grid grid-cols-1 gap-4 px-2 sm:grid-cols-2 md:px-0 lg:grid-cols-3 xl:grid-cols-4">
             {user &&
               userEstates.length > 0 &&
               userEstates?.map((estate, idx) => {
